@@ -1,0 +1,19 @@
+
+webrtc: yes
+webrtcAddress: :8889
+
+hls: yes # Должно быть yes или true
+hlsAddress: :8888 # Порт должен совпадать
+
+webrtcAdditionalHosts: ["192.168.88.210"]
+
+webrtcICEServers2:
+  - url: stun:192.168.88.210:19302
+
+paths:
+  cam1:
+    # URL вашей RTSP камеры (замените на свои данные логина, пароля и IP)
+    # source: rtsp://admin:password@111.111.111.111:554/stream1
+    source: rtsp://admin:12345@192.168.88.120:554/live/ch0
+    # Оптимизация: запрашивать поток только тогда, когда его кто-то смотрит на фронтенде
+    sourceOnDemand: yes

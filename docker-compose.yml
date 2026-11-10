@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml
+
+  motion-recorder:
+    build: ./motion-recorder
+    restart: unless-stopped
+    stop_grace_period: 20s
+    network_mode: host
+    depends_on:
+      - mediamtx
+    environment:
+      RTSP_URL: rtsp://127.0.0.1:8554/cam1
+      RECORD_SECONDS: "15"
+      MOTION_MIN_AREA: "1500"
+      MOTION_FRAMES: "3"
+      QUIET_SECONDS: "5"
+      TZ: Europe/Kaliningrad
+    volumes:
+      - ./recordings:/recordings
+
